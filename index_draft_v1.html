@@ -82,14 +82,14 @@
                 document.getElementById("contactme").hidden = false;
             }
         };
-        xhttp.open("GET", "https://script.google.com/macros/s/AKfycby8ipKTf0JBOczX8oQswYfuhBVEPyHbLv4ta3eHl_OpV9O8_SIc/exec", true);
+        xhttp.open("GET", "https://script.googleusercontent.com/a/macros/mobivi.vn/echo?user_content_key=WLaUTQEFrQf1jOVcjaBmM04feK_n10yLfbW2h0Un6IftZ4sR4zMMDM8PnGCytIl8LnPP5s0RmLKop9PKniddj6PWIxuzBIIXm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_nRPgeZU6HP_zU7oyZgUh2xbowAYbt5UWps5EeefnFRLEo8-XxOC48XS2TvG9feZzOP_baM_jxXp4iZ3SI4Dy1VV9cweLCP7uGRRZpd7IU3gYZpTak_o22Q&lib=Mq_5VHce14dMLEUESsjOT_OwfQrwlAa9z", true);
         xhttp.send();
     }
 </script>
 <div class="pure-form pure-form-stacked">
     <div class="form-elements" style="border: #1BBC9B; border-style: solid; padding-left: 20px">
         <fieldset class="pure-group">
-            <label for="icm">Your Phone Number: </label><br/>
+            <label for="message">Your Phone Number: </label><br/>
             <input id="icm" name="icm" placeholder="Input here ..."/>
             <br/>
             <button class="button-success pure-button button-xlarge" onclick="myGetData()" style="float: left">
@@ -101,8 +101,9 @@
 <br/>
 <br/>
 <br/>
-<div class="gform pure-form pure-form-stacked" method="POST" data-email="bang.th@mobivi.vn">
-    <div class="thankyou_message" id="thankyou_message">
+<form class="gform pure-form pure-form-stacked" method="POST" data-email="bang.th@mobivi.vn"
+      action="https://script.google.com/macros/s/AKfycby8ipKTf0JBOczX8oQswYfuhBVEPyHbLv4ta3eHl_OpV9O8_SIc/exec">
+    <div class="thankyou_message" id="thankyou_message" style="display:none;">
         <h2><em>Thanks</em> for your submited!
             We will get back to you soon!</h2>
     </div>
@@ -113,19 +114,19 @@
     <div class="form-elements">
         <fieldset class="pure-group">
             <label for="Name">Name: </label>
-            <input id="Name" name="Name" placeholder="What your name?"/>
+            <input id="Name" name="Name" placeholder="What your Mom calls you" />
         </fieldset>
         <fieldset class="pure-group">
             <label for="Phone">Phone: </label>
-            <input id="Phone" name="Phone" placeholder="What your number?"/>
+            <input id="Phone" name="Phone" placeholder="What your number" />
         </fieldset>
         <fieldset class="pure-group">
             <label for="Company">Company: </label>
-            <input id="Company" name="Company" placeholder="What your company name?"/>
+            <input id="Company" name="Company" placeholder="What your company name" />
         </fieldset>
         <fieldset class="pure-group">
             <label for="Company_Address">Company Address: </label>
-            <input id="Company_Address" name="Company_Address" placeholder="What your company address?"/>
+            <input id="Company_Address" name="Company_Address" placeholder="What your company address" />
         </fieldset>
         <fieldset class="pure-group">
             <label for="isICMCenter">ICare Center: </label>
@@ -137,7 +138,7 @@
         </fieldset>
         <fieldset class="pure-group">
             <label for="RangeIncome">Monthly Income Range: </label>
-            <input id="RangeIncome" name="RangeIncome" placeholder="20.000.000 VND"/>
+            <input id="RangeIncome" name="RangeIncome" placeholder="20.000.000 VND" />
         </fieldset>
         <fieldset class="pure-group">
             <label for="Product">Product Selected: </label>
@@ -150,67 +151,104 @@
                 <option value="Product 5">
             </datalist>
         </fieldset>
-        <br/>
-        <button class="button-success pure-button button-xlarge" id="sendbtn" onclick="handleFormSubmit()"
-                style="float: left">
+
+        <button class="button-success pure-button button-xlarge" style="float: left">
             <i class="fa fa-paper-plane"></i>&nbsp;Send
         </button>
-
+        <br/>
+        <br/>
         <br/>
         <br/>
         <br/>
         <br/>
     </div>
 
-</div>
+</form>
 
 <script data-cfasync="false" type="text/javascript">
-    async function actionSubmit(Name, Company, Phone, Product, Company_Address, RangeIncome, isICMCenter) {
-        var url = "https://script.google.com/macros/s/AKfycby8ipKTf0JBOczX8oQswYfuhBVEPyHbLv4ta3eHl_OpV9O8_SIc/exec";
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4 && xhr.status === 200) {
-        //         document.getElementById("sendbtn").removeAttribute("disabled");
-        //         document.getElementById("thankyou_message").hidden = false;
-        //         document.getElementById("contactme").hidden = true;
-        //     }
-        // };
-        var encoded = "Name=" + Name + "&Phone=" + Phone + "&Company=" + Company + "&Company_Address=" + Company_Address + "&isICMCenter=" + isICMCenter + "&RangeIncome=" + RangeIncome + "&Product=" + Product;
-        xhr.send(encoded);
-        document.getElementById("sendbtn").removeAttribute("disabled");
-        document.getElementById("thankyou_message").hidden = false;
-        document.getElementById("contactme").hidden = true;
-    }
+    (function () {
+        function getFormData(form) {
+            var elements = form.elements;
+            var honeypot;
 
-    async function handleFormSubmit() {
-        let sleep = (milliseconds) => {
-            return new Promise(resolve => setTimeout(resolve, milliseconds))
+            var fields = Object.keys(elements).filter(function (k) {
+                return true;
+            }).map(function (k) {
+                if (elements[k].name !== undefined) {
+                    return elements[k].name;
+                    // special case for Edge's html collection
+                } else if (elements[k].length > 0) {
+                    return elements[k].item(0).name;
+                }
+            }).filter(function (item, pos, self) {
+                return self.indexOf(item) == pos && item;
+            });
+
+            var formData = {};
+            fields.forEach(function (name) {
+                var element = elements[name];
+                formData[name] = element.value;
+
+                if (element.length) {
+                    var data = [];
+                    for (var i = 0; i < element.length; i++) {
+                        var item = element.item(i);
+                        if (item.checked || item.selected) {
+                            data.push(item.value);
+                        }
+                    }
+                    formData[name] = data.join(', ');
+                }
+            });
+
+            return {data: formData, honeypot: honeypot};
         }
-        var rand = 500;
-        var Name = document.getElementById("Name").value;
-        var Company = document.getElementById("Company").value;
-        var Phone = document.getElementById("Phone").value;
-        var Product = document.getElementById("Product").value;
-        var Company_Address = document.getElementById("Company_Address").value;
-        var RangeIncome = document.getElementById("RangeIncome").value;
-        var isICMCenter = document.getElementById("isICMCenter").value;
-        await document.getElementById("sendbtn").setAttribute("disabled", "disabled");
 
-        rand = Math.floor((Math.random() * 1500) + 500);
-        await sleep(rand).then(() => {
-            console.log(rand);
-        })
-        await actionSubmit(Name, Company, Phone, Product, Company_Address, RangeIncome, isICMCenter);
+        function actionSubmit(event, i) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = getFormData(form);
+            var data = formData.data;
+            var url = form.action;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            // xhr.withCredentials = true;
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    form.reset();
+                    var formElements = form.querySelector(".form-elements")
+                    if (formElements) {
+                        // formElements.style.display = "none"; // hide form
+                    }
+                    var thankYouMessage = form.querySelector(".thankyou_message");
+                    if (thankYouMessage) {
+                        document.getElementById("thankyou_message").hidden = false;
+                        document.getElementById("contactme").hidden = true;
+                        thankYouMessage.style.display = "block";
+                    }
+                }
+            };
+            var encoded = Object.keys(data).map(function (k) {
+                return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+            }).join('&');
+            xhr.send(encoded);
+        }
 
-    }
+        async function handleFormSubmit(event) {
+            await actionSubmit(event);
+        }
 
-    function loaded() {
-        document.getElementById("thankyou_message").hidden = true;
-        document.getElementById("contactme").hidden = false;
-    };
-    document.addEventListener("DOMContentLoaded", loaded, false);
+        function loaded() {
+            var forms = document.querySelectorAll("form.gform");
+            for (var i = 0; i < forms.length; i++) {
+                forms[i].addEventListener("submit", handleFormSubmit, false);
+            }
+        };
+        document.addEventListener("DOMContentLoaded", loaded, false);
+    })();
 </script>
+<!-- END -->
+
 </body>
 </html>
