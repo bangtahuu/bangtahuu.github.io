@@ -3,17 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LandingPage Demo">
-    <title>LandingPage Demo</title>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149375680-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-149375680-1');
-    </script>
+    <meta name="description" content="">
+    <title>Hotel</title>
 </head>
 
 <body>
@@ -103,6 +94,13 @@
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var data = JSON.parse(this.response);
+                debugger;
+                for(var i = 0; i < data.length; i++){
+                    var item = JSON.parse(data[i]);
+                    console.log(item);
+                }
+
+
                 document.getElementById("Name").value = data.Name;
                 document.getElementById("Company").value = data.Company;
                 document.getElementById("Phone").value = data.Phone;
@@ -114,7 +112,7 @@
                 document.getElementById("contactme").hidden = false;
             }
         };
-        xhttp.open("GET", "https://script.google.com/macros/s/AKfycby8ipKTf0JBOczX8oQswYfuhBVEPyHbLv4ta3eHl_OpV9O8_SIc/exec", true);
+        xhttp.open("GET", "https://script.google.com/a/mobivi.vn/macros/s/AKfycbxocz5t7RzHOb8MHvbZNIzWQlA_04UVJtGbkUcyqw/exec?func=listoption", true);
         xhttp.send();
     }
 </script>
@@ -211,7 +209,7 @@
 
 <script data-cfasync="false" type="text/javascript">
     async function actionSubmit(Name, Company, Phone, Product, Company_Address, RangeIncome, isICMCenter) {
-        var url = "https://script.google.com/macros/s/AKfycby8ipKTf0JBOczX8oQswYfuhBVEPyHbLv4ta3eHl_OpV9O8_SIc/exec";
+        var url = "https://script.google.com/a/mobivi.vn/macros/s/AKfycbxocz5t7RzHOb8MHvbZNIzWQlA_04UVJtGbkUcyqw/exec";
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
